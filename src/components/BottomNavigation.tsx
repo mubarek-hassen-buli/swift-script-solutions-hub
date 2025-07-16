@@ -1,32 +1,38 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Home, Heart, MessageSquare, Settings } from 'lucide-react';
 
 interface NavigationItem {
   id: string;
   label: string;
-  icon: string;
-  activeIcon?: string;
+  icon: React.ComponentType<{ className?: string }>;
+  path: string;
 }
 
 const navigationItems: NavigationItem[] = [
   {
     id: 'home',
     label: 'Home',
-    icon: 'https://api.builder.io/api/v1/image/assets/907dc48dfccd43dfb279b20779532cfb/5dc3dcf3c81cd8798e911194728bb6c6f5638c20?placeholderIfAbsent=true'
+    icon: Home,
+    path: '/'
   },
   {
     id: 'favorites',
     label: 'Favorites',
-    icon: 'https://api.builder.io/api/v1/image/assets/907dc48dfccd43dfb279b20779532cfb/bd6fc20bfb7759416c72abac7fde03d373b72854?placeholderIfAbsent=true'
+    icon: Heart,
+    path: '/favorites'
   },
   {
     id: 'feedback',
     label: 'Feedback',
-    icon: 'https://api.builder.io/api/v1/image/assets/907dc48dfccd43dfb279b20779532cfb/5efa3cc15087ee273c7fee22e3192eb21e7deff2?placeholderIfAbsent=true'
+    icon: MessageSquare,
+    path: '/feedback'
   },
   {
     id: 'settings',
     label: 'Settings',
-    icon: 'https://api.builder.io/api/v1/image/assets/907dc48dfccd43dfb279b20779532cfb/2d21067bcedeeca7c08934072c2563a1edd56f2f?placeholderIfAbsent=true'
+    icon: Settings,
+    path: '/settings'
   }
 ];
 
@@ -35,38 +41,36 @@ interface BottomNavigationProps {
 }
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ onNavigate }) => {
+  const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState('home');
 
-  const handleItemClick = (itemId: string) => {
+  const handleItemClick = (itemId: string, path: string) => {
     setActiveItem(itemId);
+    navigate(path);
     onNavigate?.(itemId);
   };
 
   return (
-    <nav className="bg-white shadow-[0px_-1px_12px_rgba(0,0,0,0.07)] self-stretch flex w-full items-stretch gap-5 text-sm text-gray-500 font-medium whitespace-nowrap tracking-[-0.56px] justify-between mt-[179px] px-[31px] py-[15px]">
-      {navigationItems.map((item) => (
-        <button
-          key={item.id}
-          onClick={() => handleItemClick(item.id)}
-          className={`flex flex-col items-center transition-colors ${
-            activeItem === item.id ? 'text-[rgba(184,134,11,1)]' : 'hover:text-gray-700'
-          }`}
-          aria-label={item.label}
-          aria-current={activeItem === item.id ? 'page' : undefined}
-        >
-          <img
-            src={item.icon}
-            className={`object-contain shrink-0 ${
-              item.id === 'home' ? 'aspect-[1.09] w-6' :
-              item.id === 'favorites' ? 'aspect-[1.11] w-5' :
-              item.id === 'feedback' ? 'aspect-[1] w-5' :
-              'aspect-[0.95] w-[19px]'
+    <nav className="bg-background border-t border-border shadow-[0px_-1px_12px_rgba(0,0,0,0.07)] self-stretch flex w-full items-stretch gap-5 text-sm text-muted-foreground font-medium whitespace-nowrap tracking-[-0.56px] justify-between mt-[179px] px-[31px] py-[15px]">
+      {navigationItems.map((item) => {
+        const IconComponent = item.icon;
+        const isActive = activeItem === item.id;
+        
+        return (
+          <button
+            key={item.id}
+            onClick={() => handleItemClick(item.id, item.path)}
+            className={`flex flex-col items-center transition-colors ${
+              isActive ? 'text-primary' : 'hover:text-foreground'
             }`}
-            alt={`${item.label} icon`}
-          />
-          <span className="mt-[5px]">{item.label}</span>
-        </button>
-      ))}
+            aria-label={item.label}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            <IconComponent className="h-6 w-6" />
+            <span className="mt-[5px]">{item.label}</span>
+          </button>
+        );
+      })}
     </nav>
   );
 };
