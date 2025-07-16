@@ -4,15 +4,22 @@ import { BottomNavigation } from '@/components/BottomNavigation';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ChevronRight, User, CreditCard, Shield, HelpCircle } from 'lucide-react';
+import { ChevronRight, Settings as SettingsIcon, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const Settings = () => {
   const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
   const [language, setLanguage] = useState('english');
+  const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   const handleNavigation = (itemId: string) => {
     console.log(`Navigated to ${itemId}`);
+  };
+
+  const handleAdminPanelClick = () => {
+    navigate('/admin');
   };
 
   return (
@@ -27,7 +34,8 @@ const Settings = () => {
           <h2 className="text-lg font-medium text-foreground mb-4">Account</h2>
           <div className="bg-card p-4 rounded-lg border">
             <p className="text-sm text-muted-foreground mb-2">Signed in as</p>
-            <p className="text-sm text-foreground mb-4">rayyu0@gmail.com</p>
+            <p className="text-sm text-foreground mb-1">hayuyj0@gmail.com</p>
+            <p className="text-sm text-yellow-600 mb-4">Administrator</p>
             <Button variant="destructive" className="w-full">
               Sign Out
             </Button>
@@ -54,7 +62,7 @@ const Settings = () => {
                 <h3 className="font-medium text-foreground">Dark Mode</h3>
                 <p className="text-sm text-muted-foreground">Switch to dark theme</p>
               </div>
-              <Switch checked={darkMode} onCheckedChange={setDarkMode} />
+              <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme} />
             </div>
 
             {/* Language */}
@@ -76,45 +84,26 @@ const Settings = () => {
 
         {/* Settings Menu */}
         <div className="space-y-3">
+          <div 
+            className="flex items-center justify-between bg-card p-4 rounded-lg border cursor-pointer hover:bg-accent transition-colors"
+            onClick={handleAdminPanelClick}
+          >
+            <div className="flex items-center gap-3">
+              <SettingsIcon className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <h3 className="font-medium text-foreground">Admin Panel</h3>
+                <p className="text-sm text-muted-foreground">Manage services and user data</p>
+              </div>
+            </div>
+            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+          </div>
+
           <div className="flex items-center justify-between bg-card p-4 rounded-lg border cursor-pointer hover:bg-accent transition-colors">
             <div className="flex items-center gap-3">
               <User className="h-5 w-5 text-muted-foreground" />
               <div>
                 <h3 className="font-medium text-foreground">Profile Settings</h3>
                 <p className="text-sm text-muted-foreground">Update your personal information</p>
-              </div>
-            </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground" />
-          </div>
-
-          <div className="flex items-center justify-between bg-card p-4 rounded-lg border cursor-pointer hover:bg-accent transition-colors">
-            <div className="flex items-center gap-3">
-              <CreditCard className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <h3 className="font-medium text-foreground">Payment Methods</h3>
-                <p className="text-sm text-muted-foreground">Manage your payment options</p>
-              </div>
-            </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground" />
-          </div>
-
-          <div className="flex items-center justify-between bg-card p-4 rounded-lg border cursor-pointer hover:bg-accent transition-colors">
-            <div className="flex items-center gap-3">
-              <Shield className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <h3 className="font-medium text-foreground">Privacy & Security</h3>
-                <p className="text-sm text-muted-foreground">Control your privacy settings</p>
-              </div>
-            </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground" />
-          </div>
-
-          <div className="flex items-center justify-between bg-card p-4 rounded-lg border cursor-pointer hover:bg-accent transition-colors">
-            <div className="flex items-center gap-3">
-              <HelpCircle className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <h3 className="font-medium text-foreground">Help & Support</h3>
-                <p className="text-sm text-muted-foreground">Get help and contact support</p>
               </div>
             </div>
             <ChevronRight className="h-5 w-5 text-muted-foreground" />
