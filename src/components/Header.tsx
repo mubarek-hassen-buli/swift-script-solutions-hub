@@ -1,6 +1,6 @@
 import React from 'react';
 import { Globe, Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '../contexts/ThemeContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
