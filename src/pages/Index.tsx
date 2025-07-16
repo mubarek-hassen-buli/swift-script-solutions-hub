@@ -27,21 +27,25 @@ const Index = () => {
   };
 
   return (
-    <div className="bg-white flex max-w-[480px] w-full flex-col overflow-hidden items-center mx-auto pt-4 min-h-screen">
-      <Header />
+    <div className="bg-background text-foreground flex max-w-[480px] w-full flex-col overflow-hidden items-center mx-auto pt-4 min-h-screen pb-20">
+      <div className="px-4 w-full">
+        <Header />
+      </div>
       
       <main className="flex flex-col items-center w-full flex-1">
         <HeroSection />
         
-        <SearchBar onSearch={handleSearch} />
-        
-        <CategoryTabs onCategoryChange={handleCategoryChange} />
-        
-        <ProductList
-          searchQuery={searchQuery}
-          activeCategory={activeCategory}
-          onAddToCart={handleAddToCart}
-        />
+        <div className="px-4 w-full">
+          <SearchBar onSearch={handleSearch} />
+          
+          <CategoryTabs onCategoryChange={handleCategoryChange} />
+          
+          <ProductList
+            searchQuery={searchQuery}
+            activeCategory={activeCategory}
+            onAddToCart={handleAddToCart}
+          />
+        </div>
       </main>
       
       <BottomNavigation onNavigate={handleNavigation} />

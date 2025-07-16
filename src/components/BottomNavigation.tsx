@@ -51,7 +51,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({ onNavigate }
   };
 
   return (
-    <nav className="bg-background border-t border-border shadow-[0px_-1px_12px_rgba(0,0,0,0.07)] self-stretch flex w-full items-stretch gap-5 text-sm text-muted-foreground font-medium whitespace-nowrap tracking-[-0.56px] justify-between mt-[179px] px-[31px] py-[15px]">
+    <nav className="bg-background border-t border-border shadow-[0px_-1px_12px_rgba(0,0,0,0.07)] self-stretch flex w-full items-stretch gap-5 text-sm text-muted-foreground font-medium whitespace-nowrap tracking-[-0.56px] justify-between px-[31px] py-[15px] fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto z-50">
       {navigationItems.map((item) => {
         const IconComponent = item.icon;
         const isActive = activeItem === item.id;
@@ -61,7 +61,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({ onNavigate }
             key={item.id}
             onClick={() => handleItemClick(item.id, item.path)}
             className={`flex flex-col items-center transition-colors ${
-              isActive ? 'text-primary' : 'hover:text-foreground'
+              isActive ? 'text-golden' : 'hover:text-foreground'
             }`}
             aria-label={item.label}
             aria-current={isActive ? 'page' : undefined}
